@@ -12,7 +12,7 @@ export declare type ActiveAutocompleteState = {
     active: true;
     decorations: DecorationSet;
     trigger: string;
-    text: string;
+    filter: string;
     range: FromTo;
     type: Trigger | null;
 };
@@ -38,7 +38,7 @@ export declare type AutocompleteAction = {
 export interface OpenAutocomplete {
     action: 'add';
     trigger: string;
-    search?: string;
+    filter?: string;
     type: Trigger | null;
 }
 export interface CloseAutocomplete {

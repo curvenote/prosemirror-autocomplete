@@ -46,11 +46,11 @@ function getDecorationPlugin(reducer) {
                     const next = plugin.getState(view.state);
                     const started = !prev.active && next.active;
                     const stopped = prev.active && !next.active;
-                    const changed = next.active && !started && !stopped && prev.text !== next.text;
+                    const changed = next.active && !started && !stopped && prev.filter !== next.filter;
                     const action = {
                         view,
                         trigger: (_a = next.trigger) !== null && _a !== void 0 ? _a : prev.trigger,
-                        filter: (_b = next.text) !== null && _b !== void 0 ? _b : prev.text,
+                        filter: (_b = next.filter) !== null && _b !== void 0 ? _b : prev.filter,
                         range: (_c = next.range) !== null && _c !== void 0 ? _c : prev.range,
                         type: (_d = next.type) !== null && _d !== void 0 ? _d : prev.type,
                     };
@@ -69,8 +69,8 @@ function getDecorationPlugin(reducer) {
                 var _a;
                 const meta = tr.getMeta(plugin);
                 if ((meta === null || meta === void 0 ? void 0 : meta.action) === 'add') {
-                    const { trigger, search, type } = meta;
-                    const from = tr.selection.from - trigger.length - ((_a = search === null || search === void 0 ? void 0 : search.length) !== null && _a !== void 0 ? _a : 0);
+                    const { trigger, filter, type } = meta;
+                    const from = tr.selection.from - trigger.length - ((_a = filter === null || filter === void 0 ? void 0 : filter.length) !== null && _a !== void 0 ? _a : 0);
                     const to = tr.selection.from;
                     const attrs = Object.assign(Object.assign({}, utils_1.DEFAULT_DECO_ATTRS), type === null || type === void 0 ? void 0 : type.decorationAttrs);
                     const deco = prosemirror_view_1.Decoration.inline(from, to, attrs, {
@@ -81,7 +81,7 @@ function getDecorationPlugin(reducer) {
                         active: true,
                         trigger: meta.trigger,
                         decorations: prosemirror_view_1.DecorationSet.create(tr.doc, [deco]),
-                        text: search !== null && search !== void 0 ? search : '',
+                        filter: filter !== null && filter !== void 0 ? filter : '',
                         range: { from, to },
                         type,
                     };
@@ -104,7 +104,7 @@ function getDecorationPlugin(reducer) {
                     active,
                     trigger,
                     decorations: nextDecorations,
-                    text: text.slice(trigger.length),
+                    filter: text.slice(trigger.length),
                     range: { from, to },
                     type,
                 };
