@@ -54,7 +54,7 @@ function reducer(action) {
             picker.current %= NUM_SUGGESTIONS;
             placeSuggestion();
             return true;
-        case src_1.ActionKind.select: {
+        case src_1.ActionKind.enter: {
             const tr = action.view.state.tr
                 .deleteRange(action.range.from, action.range.to)
                 .insertText(`You can define this ${action.type ? `${(_a = action.type) === null || _a === void 0 ? void 0 : _a.name} ` : ''}action!`);

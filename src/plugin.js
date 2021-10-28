@@ -20,8 +20,8 @@ function defaultReducer(options) {
                 return (_f = (_e = options.onArrow) === null || _e === void 0 ? void 0 : _e.call(options, action)) !== null && _f !== void 0 ? _f : false;
             case types_1.ActionKind.filter:
                 return (_h = (_g = options.onFilter) === null || _g === void 0 ? void 0 : _g.call(options, action)) !== null && _h !== void 0 ? _h : false;
-            case types_1.ActionKind.select:
-                return (_k = (_j = options.onSelect) === null || _j === void 0 ? void 0 : _j.call(options, action)) !== null && _k !== void 0 ? _k : false;
+            case types_1.ActionKind.enter:
+                return (_k = (_j = options.onEnter) === null || _j === void 0 ? void 0 : _j.call(options, action)) !== null && _k !== void 0 ? _k : false;
             default:
                 return false;
         }

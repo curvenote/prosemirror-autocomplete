@@ -11,6 +11,6 @@ var ActionKind;
     ActionKind["down"] = "ArrowDown";
     ActionKind["left"] = "ArrowLeft";
     ActionKind["right"] = "ArrowRight";
-    ActionKind["select"] = "select";
+    ActionKind["enter"] = "enter";
 })(ActionKind = exports.ActionKind || (exports.ActionKind = {}));
 //# sourceMappingURL=types.js.map
