@@ -14,11 +14,11 @@ const inactiveSuggestionState = {
 function actionFromEvent(event) {
     switch (event.key) {
         case 'ArrowUp':
-            return types_1.ActionKind.previous;
         case 'ArrowDown':
-            return types_1.ActionKind.next;
+        case 'ArrowLeft':
+        case 'ArrowRight':
+            return event.key;
         case 'Tab':
-            return types_1.ActionKind.select;
         case 'Enter':
             return types_1.ActionKind.select;
         case 'Escape':
@@ -50,7 +50,7 @@ function getDecorationPlugin(reducer) {
                     const action = {
                         view,
                         trigger: (_a = next.trigger) !== null && _a !== void 0 ? _a : prev.trigger,
-                        search: (_b = next.text) !== null && _b !== void 0 ? _b : prev.text,
+                        filter: (_b = next.text) !== null && _b !== void 0 ? _b : prev.text,
                         range: (_c = next.range) !== null && _c !== void 0 ? _c : prev.range,
                         type: (_d = next.type) !== null && _d !== void 0 ? _d : prev.type,
                     };
@@ -122,17 +122,17 @@ function getDecorationPlugin(reducer) {
                 const { from, to } = decorations.find()[0];
                 const text = view.state.doc.textBetween(from, to);
                 // Be defensive, just in case the trigger doesn't exist
-                const search = text.slice((_a = trigger === null || trigger === void 0 ? void 0 : trigger.length) !== null && _a !== void 0 ? _a : 1);
+                const filter = text.slice((_a = trigger === null || trigger === void 0 ? void 0 : trigger.length) !== null && _a !== void 0 ? _a : 1);
                 const checkCancelOnSpace = (_b = type === null || type === void 0 ? void 0 : type.cancelOnFirstSpace) !== null && _b !== void 0 ? _b : true;
                 if (checkCancelOnSpace &&
-                    search.length === 0 &&
+                    filter.length === 0 &&
                     (event.key === ' ' || event.key === 'Spacebar')) {
                     (0, actions_1.closeAutocomplete)(view);
                     // Take over the space creation so no other input rules are fired
                     view.dispatch(view.state.tr.insertText(' ').scrollIntoView());
                     return true;
                 }
-                if (search.length === 0 && event.key === 'Backspace') {
+                if (filter.length === 0 && event.key === 'Backspace') {
                     (0, prosemirror_inputrules_1.undoInputRule)(view.state, view.dispatch);
                     (0, actions_1.closeAutocomplete)(view);
                     return true;
@@ -141,7 +141,7 @@ function getDecorationPlugin(reducer) {
                 const action = {
                     view,
                     trigger,
-                    search,
+                    filter,
                     range: { from, to },
                     type,
                 };
@@ -157,10 +157,14 @@ function getDecorationPlugin(reducer) {
                             return true;
                         return result || (0, actions_1.closeAutocomplete)(view);
                     }
-                    case types_1.ActionKind.previous:
-                        return Boolean(reducer(Object.assign(Object.assign({}, action), { kind: types_1.ActionKind.previous })));
-                    case types_1.ActionKind.next:
-                        return Boolean(reducer(Object.assign(Object.assign({}, action), { kind: types_1.ActionKind.next })));
+                    case types_1.ActionKind.up:
+                    case types_1.ActionKind.down:
+                        return Boolean(reducer(Object.assign(Object.assign({}, action), { kind })));
+                    case types_1.ActionKind.left:
+                    case types_1.ActionKind.right:
+                        if (!(type === null || type === void 0 ? void 0 : type.allArrowKeys))
+                            return false;
+                        return Boolean(reducer(Object.assign(Object.assign({}, action), { kind })));
                     default:
                         break;
                 }

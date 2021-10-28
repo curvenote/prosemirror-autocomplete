@@ -7,8 +7,10 @@ var ActionKind;
     ActionKind["open"] = "open";
     ActionKind["close"] = "close";
     ActionKind["filter"] = "filter";
-    ActionKind["previous"] = "previous";
-    ActionKind["next"] = "next";
+    ActionKind["up"] = "ArrowUp";
+    ActionKind["down"] = "ArrowDown";
+    ActionKind["left"] = "ArrowLeft";
+    ActionKind["right"] = "ArrowRight";
     ActionKind["select"] = "select";
 })(ActionKind = exports.ActionKind || (exports.ActionKind = {}));
 //# sourceMappingURL=types.js.map

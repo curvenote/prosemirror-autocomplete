@@ -21,18 +21,20 @@ export declare enum ActionKind {
     'open' = "open",
     'close' = "close",
     'filter' = "filter",
-    'previous' = "previous",
-    'next' = "next",
+    'up' = "ArrowUp",
+    'down' = "ArrowDown",
+    'left' = "ArrowLeft",
+    'right' = "ArrowRight",
     'select' = "select"
 }
-export interface AutocompleteAction {
+export declare type AutocompleteAction = {
     kind: ActionKind;
     view: EditorView;
     trigger: string;
-    search?: string;
+    filter?: string;
     range: FromTo;
     type: Trigger | null;
-}
+};
 export interface OpenAutocomplete {
     action: 'add';
     trigger: string;
@@ -47,9 +49,15 @@ export declare type Trigger = {
     name: string;
     trigger: string | RegExp;
     cancelOnFirstSpace?: boolean;
+    allArrowKeys?: boolean;
     decorationAttrs?: DecorationAttrs;
 };
 export declare type Options = {
-    reducer?: (action: AutocompleteAction) => boolean | typeof KEEP_OPEN;
-    triggers?: Trigger[];
+    onOpen?: (action: AutocompleteAction) => boolean;
+    onClose?: (action: AutocompleteAction) => boolean;
+    onFilter?: (action: AutocompleteAction) => boolean;
+    onArrow?: (action: AutocompleteAction) => boolean;
+    onSelect?: (action: AutocompleteAction) => boolean;
+    reducer: (action: AutocompleteAction) => boolean | typeof KEEP_OPEN;
+    triggers: Trigger[];
 };

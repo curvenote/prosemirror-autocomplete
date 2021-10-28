@@ -14,7 +14,7 @@ const picker = {
 const NUM_SUGGESTIONS = suggestion.children.length;
 function setInfo(action) {
     var _a;
-    info.innerText = `Action: ${action.kind}, Range: ${action.range.from}-${action.range.to}, Search: ${action.search}, Trigger: ${action.trigger}, Type: ${(_a = action.type) === null || _a === void 0 ? void 0 : _a.name}`;
+    info.innerText = `Action: ${action.kind}, Range: ${action.range.from}-${action.range.to}, Filter: ${action.filter}, Trigger: ${action.trigger}, Type: ${(_a = action.type) === null || _a === void 0 ? void 0 : _a.name}`;
 }
 function placeSuggestion() {
     var _a;
@@ -29,6 +29,7 @@ function placeSuggestion() {
     });
 }
 function reducer(action) {
+    var _a;
     picker.view = action.view;
     setInfo(action);
     switch (action.kind) {
@@ -42,13 +43,13 @@ function reducer(action) {
             picker.open = false;
             placeSuggestion();
             return true;
-        case src_1.ActionKind.previous:
+        case src_1.ActionKind.up:
             picker.current -= 1;
             picker.current += NUM_SUGGESTIONS; // negative modulus doesn't work
             picker.current %= NUM_SUGGESTIONS;
             placeSuggestion();
             return true;
-        case src_1.ActionKind.next:
+        case src_1.ActionKind.down:
             picker.current += 1;
             picker.current %= NUM_SUGGESTIONS;
             placeSuggestion();
@@ -56,7 +57,7 @@ function reducer(action) {
         case src_1.ActionKind.select: {
             const tr = action.view.state.tr
                 .deleteRange(action.range.from, action.range.to)
-                .insertText('You can define this!');
+                .insertText(`You can define this ${action.type ? `${(_a = action.type) === null || _a === void 0 ? void 0 : _a.name} ` : ''}action!`);
             action.view.dispatch(tr);
             return true;
         }
