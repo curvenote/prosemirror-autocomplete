@@ -14,5 +14,6 @@ const plugin_1 = require("./plugin");
 __exportStar(require("./types"), exports);
 __exportStar(require("./utils"), exports);
 __exportStar(require("./plugin"), exports);
+__exportStar(require("./actions"), exports);
 exports.default = plugin_1.autocomplete;
 //# sourceMappingURL=index.js.map
